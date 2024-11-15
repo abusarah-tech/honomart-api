@@ -17,6 +17,7 @@ export const products: Product[] = [
   },
 ];
 
+export const carts: Map<string, CartItem[]> = new Map();
 
 export const BASE_URL = "http://localhost";
 export const TEST_USER_ID = "test-user-123";
