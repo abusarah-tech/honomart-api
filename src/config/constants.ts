@@ -1,4 +1,6 @@
 const products: Product[] = [
+
+export const products: Product[] = [
   {
     id: "1",
     name: "Smartphone",
@@ -14,3 +16,7 @@ const products: Product[] = [
     stock: 30,
   },
 ];
+
+
+export const BASE_URL = "http://localhost";
+export const TEST_USER_ID = "test-user-123";
