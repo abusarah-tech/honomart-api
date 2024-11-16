@@ -13,21 +13,21 @@ app.use("*", prettyJSON());
 app.use("*", cors());
 
 app.onError((err, c) => {
-  console.error(`[ERROR] ${err.message}`);
-  return c.json(
-    {
-      success: false,
-      message: err.message,
-    },
-    500,
-  );
+	console.error(`[ERROR] ${err.message}`);
+	return c.json(
+		{
+			success: false,
+			message: err.message,
+		},
+		500,
+	);
 });
 
 app.get("/", (c) => {
-  return c.json({
-    status: "healthy",
-    timestamp: new Date().toISOString(),
-  });
+	return c.json({
+		status: "healthy",
+		timestamp: new Date().toISOString(),
+	});
 });
 
 app.route("/products", products_api);
