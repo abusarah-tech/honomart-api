@@ -1,3 +1,5 @@
+import type pino from "pino";
+
 export type Product = {
 	id: string;
 	name: string;
@@ -18,4 +20,8 @@ export type Order = {
 	totalAmount: number;
 	status: "pending" | "confirmed" | "shipped" | "delivered";
 	createdAt: string;
+};
+
+export type Variables = {
+	logger: pino.Logger;
 };

@@ -7,7 +7,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^4.6.10"
+    "hono": "^4.6.10",
+    "pino": "^9.5.0",
+    "sonic-boom": "^4.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
