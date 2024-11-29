@@ -1,13 +1,26 @@
 version: "3"
 
 services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "6831:6831/udp" # Jaeger thrift compact
+      - "6832:6832/udp" # Jaeger thrift binary
+      - "14250:14250" # Model/collector gRPC
+      - "16686:16686" # Web UI
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP http receiver
+    networks:
+      - monitoring-net
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
   loki:
     image: grafana/loki:2.9.0
     ports:
       - "3100:3100"
     # command: -config.file=/etc/loki/local-config.yml
     networks:
-      - loki-net
+      - monitoring-net
 
   promtail:
     image: grafana/promtail:latest
@@ -16,7 +29,7 @@ services:
       - ./logs:/var/log/app # Mount your local logs directory
     command: -config.file=/etc/promtail/config.yml
     networks:
-      - loki-net
+      - monitoring-net
 
   grafana:
     image: grafana/grafana:10.2.0
@@ -29,10 +42,10 @@ services:
     volumes:
       - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
     networks:
-      - loki-net
+      - monitoring-net
     depends_on:
       - loki
 
 networks:
-  loki-net:
+  monitoring-net:
     driver: bridge

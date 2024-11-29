@@ -7,3 +7,14 @@ datasources:
     url: http://loki:3100
     version: 1
     isDefault: true
+
+  - name: Jaeger
+    type: jaeger
+    access: proxy
+    url: http://jaeger:16686
+    uid: jaeger
+    version: 1
+    editable: true
+    jsonData:
+      nodeGraph:
+        enabled: true
