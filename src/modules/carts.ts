@@ -1,4 +1,4 @@
-import { carts, products } from "@/config/constants";
+import { carts } from "@/config/constants";
 import type { CartItem, Variables } from "@/types";
 import { Hono } from "hono";
 
@@ -33,6 +33,7 @@ const app = new Hono<{ Variables: Variables }>()
   .post(async (c) => {
     const log = c.get("logger");
     const userId = c.req.header("X-User-ID");
+    const db = c.get("db");
 
     log.debug({
       msg: "Adding item to cart",
@@ -56,7 +57,9 @@ const app = new Hono<{ Variables: Variables }>()
         quantity: body.quantity,
       });
 
-      const product = products.find((p) => p.id === body.productId);
+      const product = await db.product.findFirst({
+        where: { id: body.productId },
+      });
       if (!product) {
         log.warn({
           msg: "Attempt to add non-existent product to cart",

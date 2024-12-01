@@ -1,9 +1,13 @@
+import type { Span } from "@opentelemetry/api";
 import type pino from "pino";
+import type { PrismaClient } from "@prisma/client";
 
 export type Product = {
 	id: string;
+	createdAt: string;
 	name: string;
 	description: string;
+	category: string;
 	price: number;
 	stock: number;
 };
@@ -24,4 +28,6 @@ export type Order = {
 
 export type Variables = {
 	logger: pino.Logger;
+	span: Span;
+	db: PrismaClient;
 };

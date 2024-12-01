@@ -19,11 +19,11 @@ describe("Cart API", () => {
 		productId = product.id;
 
 		// Clear cart before each test
-		await makeRequest("/cart", { method: "DELETE" });
+		await makeRequest("/carts", { method: "DELETE" });
 	});
 
 	test("should start with empty cart", async () => {
-		const res = await makeRequest("/cart");
+		const res = await makeRequest("/carts");
 		expect(res.status).toBe(200);
 
 		const cart = await res.json();
@@ -37,7 +37,7 @@ describe("Cart API", () => {
 			quantity: 2,
 		};
 
-		const res = await makeRequest("/cart", {
+		const res = await makeRequest("/carts", {
 			method: "POST",
 			body: JSON.stringify(cartItem),
 		});
@@ -51,7 +51,7 @@ describe("Cart API", () => {
 
 	test("should clear cart", async () => {
 		// First add an item
-		await makeRequest("/cart", {
+		await makeRequest("/carts", {
 			method: "POST",
 			body: JSON.stringify({
 				productId,
@@ -60,13 +60,13 @@ describe("Cart API", () => {
 		});
 
 		// Then clear the cart
-		const res = await makeRequest("/cart", {
+		const res = await makeRequest("/carts", {
 			method: "DELETE",
 		});
 		expect(res.status).toBe(200);
 
 		// Verify cart is empty
-		const getRes = await makeRequest("/cart");
+		const getRes = await makeRequest("/carts");
 		const cart = await getRes.json();
 		expect(cart.length).toBe(0);
 	});

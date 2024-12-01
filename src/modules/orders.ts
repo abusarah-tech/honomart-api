@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { carts, orders, products } from "@/config/constants";
+import { carts, orders } from "@/config/constants";
 import type { Order, Variables } from "@/types";
 
 const app = new Hono<{ Variables: Variables }>()
@@ -27,6 +27,7 @@ const app = new Hono<{ Variables: Variables }>()
   .post(async (c) => {
     const log = c.get("logger");
     const userId = c.req.header("X-User-ID");
+    const db = c.get("db");
 
     log.debug({ msg: "Creating new order", userId });
 
@@ -54,7 +55,9 @@ const app = new Hono<{ Variables: Variables }>()
     let totalAmount = 0;
     try {
       for (const item of userCart) {
-        const product = products.find((p) => p.id === item.productId);
+        const product = await db.product.findFirst({
+          where: { id: item.productId },
+        });
         if (!product) {
           log.error({
             msg: "Product not found during order creation",
@@ -66,7 +69,7 @@ const app = new Hono<{ Variables: Variables }>()
             404,
           );
         }
-        totalAmount += product.price * item.quantity;
+        totalAmount += product.price.toNumber() * item.quantity;
       }
 
       const newOrder: Order = {

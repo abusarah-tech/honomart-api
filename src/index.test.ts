@@ -18,7 +18,7 @@ describe("HonoMart API", () => {
 	describe("Error Handling", () => {
 		test("should require user ID header", async () => {
 			const res = await app.fetch(
-				new Request(`${BASE_URL}/cart`, {
+				new Request(`${BASE_URL}/carts`, {
 					headers: { "Content-Type": "application/json" },
 				}),
 			);
