@@ -27,3 +27,11 @@ To generate some logs, you can use the tests. For example:
 ```sh
 LOG_LEVEL=debug bun run test products.test
 ```
+
+
+## Environment Variables
+
+```sh
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/postgres
+```
+
